@@ -2,3 +2,11 @@ node_modules
 
 yarn.lock
 package-lock.json
+
+*.db
+
+.env
+.env.local
+.env.development
+.env.test
+.env.production
