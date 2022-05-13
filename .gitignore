@@ -1,0 +1,9 @@
+node_modules
+
+*.db
+
+.env
+.env.local
+.env.development
+.env.test
+.env.production
