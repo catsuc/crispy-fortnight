@@ -1,0 +1,25 @@
+name: Pull Request
+
+on: pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: npx yarn install
+
+      - name: Run tests
+        run: npx yarn test
+
+      - name: Run linter
+        run: echo "Linter not found"
