@@ -5,7 +5,8 @@
   "repository": "https://github.com/Jovens-Gafanhotos/crispy-fortnight",
   "license": "MIT",
   "scripts": {
-    "start:dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts"
+    "start:dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
+    "test": "echo \"Error: no test specified\""
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
