@@ -1,13 +1,12 @@
+import 'dotenv/config'
 import express from 'express';
 
-import { routes } from './routes';
+const app = express();
 
-function serverFactory(): express.Express {
-  const server = express();
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+})
 
-  server.use(routes);
-
-  return server;
-}
-
-export { serverFactory };
+app.listen(process.env.PORT || 3333, () => { 
+  console.log(`Server started on port ${process.env.port || 3333}`);
+});
