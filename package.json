@@ -1,11 +1,11 @@
 {
   "name": "crispy-fortnight",
   "version": "1.0.0",
-  "main": "src/server.ts",
+  "main": "src/index.ts",
   "repository": "https://github.com/Jovens-Gafanhotos/crispy-fortnight",
   "license": "MIT",
   "scripts": {
-    "start:dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
+    "start:dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/index.ts",
     "test": "jest"
   },
   "devDependencies": {
