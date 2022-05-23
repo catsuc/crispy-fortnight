@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "emails" (
+CREATE TABLE "messages" (
     "id" TEXT NOT NULL,
     "message" TEXT NOT NULL,
     "target_email" TEXT NOT NULL,
@@ -8,5 +8,5 @@ CREATE TABLE "emails" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "emails_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "messages_pkey" PRIMARY KEY ("id")
 );
