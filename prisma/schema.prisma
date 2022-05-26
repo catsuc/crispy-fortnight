@@ -11,13 +11,13 @@ datasource db {
 }
 
 model Message {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   message     String
-  targetEmail String   @map("target_email")
-  targetDate  DateTime @map("target_date")
-  sentAt      DateTime @map("sent_at")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  targetEmail String    @map("target_email")
+  targetDate  DateTime  @map("target_date")
+  sentAt      DateTime? @map("sent_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
 
   @@map("messages")
 }
