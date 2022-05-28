@@ -1,4 +1,4 @@
-import { RegisterMessageUseCase } from "./registerMessageUseCase"
+import { RegisterMessageUseCase } from "./register-message-use-case"
 
 const createMessageSpy = jest.fn();
 

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { PrismaMessageRepository } from './repositories/prisma/PrismaMessageRepository';
-import { RegisterMessageUseCase } from './useCases/registerMessageUseCase';
+import { RegisterMessageUseCase } from './useCases/register-message-use-case';
 
 const routes = Router();
 
