@@ -10,8 +10,8 @@ routes.post('/message', async (request, response) => {
   const prismaMessageRepository = new PrismaMessageRepository();
 
   const registerMessageUseCase = new RegisterMessageUseCase(
-    prismaMessageRepository
-  )
+    prismaMessageRepository,
+  );
 
   await registerMessageUseCase.execute({ message, targetEmail, targetDate });
   return response.status(201).send("Message is registered");

@@ -15,10 +15,10 @@ export class RegisterMessageUseCase {
     const { message, targetEmail, targetDate } = request;
 
     if (!message) {
-      throw new Error("Message is required")
+      throw new Error("Message is required");
     }
     if (!targetEmail) {
-      throw new Error("TargetEmail is required")
+      throw new Error("TargetEmail is required");
     }
     if (Date.now() >= targetDate) {
       throw new Error("TargetDate is in the past or current time");

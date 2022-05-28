@@ -8,8 +8,7 @@ export class PrismaMessageRepository implements IMessageRepository {
         message,
         targetDate,
         targetEmail,
-      }
-    })
+      },
+    });
   }
-
 }
