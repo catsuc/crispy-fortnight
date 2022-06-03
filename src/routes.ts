@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { PrismaMessageRepository } from './repositories/prisma/PrismaMessageRepository';
-import { RegisterMessageUseCase } from './useCases/register-message-use-case';
+import { PrismaMessageRepository } from './repositories/prisma/prisma-message-repository';
+import { RegisterMessageUseCase } from './use-cases/register-message-use-case';
 
 const routes = Router();
 
@@ -14,7 +14,7 @@ routes.post('/message', async (request, response) => {
   );
 
   await registerMessageUseCase.execute({ message, targetEmail, targetDate });
-  return response.status(201).send("Message is registered");
+  return response.status(201).send("Registered message");
 });
 
 export { routes };

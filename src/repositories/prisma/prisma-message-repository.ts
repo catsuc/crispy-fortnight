@@ -1,5 +1,5 @@
 import { prisma } from "../../prisma/client";
-import { IMessageRepository, MessageCreateData } from "../IMessageRepository";
+import { IMessageRepository, MessageCreateData } from "../message-repository";
 
 export class PrismaMessageRepository implements IMessageRepository {
   async create({ message, targetDate, targetEmail }: MessageCreateData): Promise<void> {

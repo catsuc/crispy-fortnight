@@ -1,4 +1,4 @@
-import { IMessageRepository } from "../repositories/IMessageRepository";
+import { IMessageRepository } from "../repositories/message-repository";
 
 interface RegisterMessageUseCaseRequest {
   message: string;
@@ -26,4 +26,3 @@ export class RegisterMessageUseCase {
     await this.messageRepository.create({ message, targetEmail, targetDate: new Date(targetDate) });
   }
 }
-
