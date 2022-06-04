@@ -3,7 +3,7 @@ import { IMessageRepository } from "../repositories/message-repository";
 interface RegisterMessageUseCaseRequest {
   message: string;
   targetEmail: string;
-  targetDate: number;
+  targetDate: Date;
 }
 
 export class RegisterMessageUseCase {
@@ -12,7 +12,9 @@ export class RegisterMessageUseCase {
   ) {}
 
   async execute(request: RegisterMessageUseCaseRequest) {
-    const { message, targetEmail, targetDate } = request;
+    const { message, targetEmail, targetDate: rawTargetDate } = request;
+
+    const targetDate = new Date(rawTargetDate)
 
     if (!message) {
       throw new Error("Message is required");
@@ -20,9 +22,9 @@ export class RegisterMessageUseCase {
     if (!targetEmail) {
       throw new Error("TargetEmail is required");
     }
-    if (Date.now() >= targetDate) {
-      throw new Error("TargetDate is in the past or current time");
+    if (targetDate <= new Date()) {
+      throw new Error("TargetDate is past or the current date")
     }
-    await this.messageRepository.create({ message, targetEmail, targetDate: new Date(targetDate) });
+    await this.messageRepository.create({ message, targetEmail, targetDate });
   }
 }

@@ -1,5 +1,9 @@
 import { RegisterMessageUseCase } from "./register-message-use-case";
 
+jest
+  .useFakeTimers()
+  .setSystemTime(new Date('2022-06-04'));
+
 const createMessageSpy = jest.fn();
 
 const registerMessageUseCase = new RegisterMessageUseCase(
@@ -12,7 +16,7 @@ describe("Register new message", () => {
       registerMessageUseCase.execute({
         message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
         targetEmail: "email@example.com",
-        targetDate: Date.now() + 100000,
+        targetDate: new Date(Date.now() + 1),
       })
     ).resolves.not.toThrow();
 
@@ -24,7 +28,7 @@ describe("Register new message", () => {
       registerMessageUseCase.execute({
         message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
         targetEmail: "email@example.com",
-        targetDate: Date.now() - 100000,
+        targetDate: new Date(Date.now() - 1),
       })
     ).rejects.toThrow();
   });
@@ -34,7 +38,7 @@ describe("Register new message", () => {
       registerMessageUseCase.execute({
         message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
         targetEmail: "email@example.com",
-        targetDate: Date.now(),
+        targetDate: new Date(),
       })
     ).rejects.toThrow();
   });
@@ -44,7 +48,7 @@ describe("Register new message", () => {
       registerMessageUseCase.execute({
         message: "",
         targetEmail: "email@example.com",
-        targetDate: Date.now() + 100000,
+        targetDate: new Date(Date.now() + 1)
       })
     ).rejects.toThrow();
   });
@@ -54,7 +58,7 @@ describe("Register new message", () => {
       registerMessageUseCase.execute({
         message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
         targetEmail: "",
-        targetDate: Date.now() + 100000,
+        targetDate: new Date(Date.now() + 1)
       })
     ).rejects.toThrow();
   });
