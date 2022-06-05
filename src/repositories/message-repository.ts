@@ -4,6 +4,6 @@ export interface MessageCreateData {
   targetDate: Date;
 }
 
-export interface IMessageRepository {
+export interface MessageRepository {
   create(data: MessageCreateData): Promise<void>;
 }

@@ -1,4 +1,4 @@
-import { IMessageRepository } from "../repositories/message-repository";
+import { MessageRepository } from "../repositories/message-repository";
 
 interface RegisterMessageUseCaseRequest {
   message: string;
@@ -8,7 +8,7 @@ interface RegisterMessageUseCaseRequest {
 
 export class RegisterMessageUseCase {
   constructor(
-    private messageRepository: IMessageRepository,
+    private messageRepository: MessageRepository,
   ) {}
 
   async execute(request: RegisterMessageUseCaseRequest) {
