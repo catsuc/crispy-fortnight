@@ -11,7 +11,7 @@ export interface MessageFindWhere {
 }
 
 export interface MessageRepository {
-  create(data: MessageCreateData): Promise<void>;
+  create?(data: MessageCreateData): Promise<void>;
 
-  findMany(where: MessageFindWhere): Promise<MessageEntity[]>;
+  findMany?(where: MessageFindWhere): Promise<MessageEntity[]>;
 }
