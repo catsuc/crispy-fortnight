@@ -1,3 +1,4 @@
+import { MessageRepository } from "../repositories/message-repository";
 import { RegisterMessageUseCase } from "./register-message-use-case";
 
 jest
@@ -7,7 +8,7 @@ jest
 const createMessageSpy = jest.fn();
 
 const registerMessageUseCase = new RegisterMessageUseCase(
-  { create: createMessageSpy },
+  { create: createMessageSpy } as any as MessageRepository,
 );
 
 describe("Register new message", () => {
