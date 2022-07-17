@@ -16,7 +16,6 @@ export class RegisterMessageUseCase {
 
     const targetDate = new Date(rawTargetDate)
 
-    if (!this.messageRepository.create) return;
     if (!message) {
       throw new Error("Message is required");
     }
