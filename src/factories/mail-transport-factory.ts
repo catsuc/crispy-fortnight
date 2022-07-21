@@ -1,7 +1,7 @@
 import { Transporter } from "nodemailer";
 import nodemailer from 'nodemailer';
 
-interface MailTransportFactoryData {
+interface TransporterOptions  {
   host?: string;
   port?: number;
   secure?: boolean;
@@ -11,7 +11,7 @@ interface MailTransportFactoryData {
   }
 }
 
-export function mailTransportFactory(data: MailTransportFactoryData): Transporter {
+export function mailTransportFactory(data: TransporterOptions): Transporter {
   const transporter = nodemailer.createTransport({
     host: data.host,
     port: data.port,
