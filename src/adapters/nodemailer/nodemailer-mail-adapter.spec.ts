@@ -6,12 +6,7 @@ interface TransporterMock {
 
 describe("Mail adapter", () => {
   let nodemailerMailAdapter: NodemailerMailAdapter;
-  let initialEnvs: NodeJS.ProcessEnv;
   let transporterMock: TransporterMock;
-
-  beforeAll(() => {
-    initialEnvs = process.env;
-  });
 
   beforeEach(() => {
     nodemailerMailAdapter = new NodemailerMailAdapter();
@@ -21,10 +16,6 @@ describe("Mail adapter", () => {
     };
 
     (nodemailerMailAdapter as any).mailTransport = transporterMock;
-  });
-
-  afterAll(() => {
-    process.env = initialEnvs;
   });
 
   it("should have a sendMail method", () => {
