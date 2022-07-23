@@ -1,10 +1,6 @@
 import { MessageRepository } from "../repositories/message-repository";
 import { RegisterMessageUseCase } from "./register-message-use-case";
 
-jest
-  .useFakeTimers()
-  .setSystemTime(new Date('2022-06-04'));
-
 const createMessageSpy = jest.fn();
 
 const registerMessageUseCase = new RegisterMessageUseCase(
@@ -12,6 +8,16 @@ const registerMessageUseCase = new RegisterMessageUseCase(
 );
 
 describe("Register new message", () => {
+  beforeEach(() => {
+    jest
+    .useFakeTimers()
+    .setSystemTime(new Date('2022-07-22'));
+  })
+
+  afterEach(() => {
+    jest
+    .useRealTimers()
+  })
   it("should to register new message", async () => {
     await expect(
       registerMessageUseCase.execute({
