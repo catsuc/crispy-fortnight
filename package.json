@@ -5,6 +5,8 @@
   "repository": "https://github.com/Jovens-Gafanhotos/crispy-fortnight",
   "license": "MIT",
   "scripts": {
+    "build": "tsc --build",
+    "start": "node dist/src/index.js",
     "start:dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/index.ts",
     "test": "jest"
   },
