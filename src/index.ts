@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { serverFactory } from './server';
+import './worker';
 
 const PORT = process.env.PORT || 3333;
 const server = serverFactory();
