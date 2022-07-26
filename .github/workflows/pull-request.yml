@@ -21,5 +21,8 @@ jobs:
       - name: Run tests
         run: npx yarn test
 
+      - name: Run Typescript
+        run: npx yarn build
+
       - name: Run linter
         run: echo "Linter not found"
