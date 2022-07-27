@@ -1,23 +1,20 @@
-import { MessageRepository } from "../repositories/message-repository";
-import { RegisterMessageUseCase } from "./register-message-use-case";
+import { MessageRepository } from "../src/repositories/message-repository";
+import { RegisterMessageUseCase } from "../src/use-cases/register-message-use-case";
 
 const createMessageSpy = jest.fn();
 
-const registerMessageUseCase = new RegisterMessageUseCase(
-  { create: createMessageSpy } as any as MessageRepository,
-);
+const registerMessageUseCase = new RegisterMessageUseCase({
+  create: createMessageSpy,
+} as any as MessageRepository);
 
 describe("Register new message", () => {
   beforeEach(() => {
-    jest
-    .useFakeTimers()
-    .setSystemTime(new Date('2022-07-22'));
-  })
+    jest.useFakeTimers().setSystemTime(new Date("2022-07-22"));
+  });
 
   afterEach(() => {
-    jest
-    .useRealTimers()
-  })
+    jest.useRealTimers();
+  });
   it("should to register new message", async () => {
     await expect(
       registerMessageUseCase.execute({
@@ -55,7 +52,7 @@ describe("Register new message", () => {
       registerMessageUseCase.execute({
         message: "",
         targetEmail: "email@example.com",
-        targetDate: new Date(Date.now() + 1)
+        targetDate: new Date(Date.now() + 1),
       })
     ).rejects.toThrow();
   });
@@ -65,7 +62,7 @@ describe("Register new message", () => {
       registerMessageUseCase.execute({
         message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
         targetEmail: "",
-        targetDate: new Date(Date.now() + 1)
+        targetDate: new Date(Date.now() + 1),
       })
     ).rejects.toThrow();
   });

@@ -1,4 +1,4 @@
-import { NodemailerMailAdapter } from "./nodemailer-mail-adapter";
+import { NodemailerMailAdapter } from "../src/adapters/nodemailer/nodemailer-mail-adapter";
 
 interface TransporterMock {
   sendMail: typeof jest.fn;
