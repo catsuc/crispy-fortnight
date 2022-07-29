@@ -10,7 +10,7 @@ declare global {
       MAIL_PORT: number | undefined;
       MAIL_SECURE: boolean | undefined;
       MAIL_AUTH_USER: string | undefined;
-      MAIL_AUTH_PASSWORD: string | undefined;
+      MAIL_AUTH_PASS: string | undefined;
     }
   }
 }
