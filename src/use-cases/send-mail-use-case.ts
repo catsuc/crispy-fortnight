@@ -6,21 +6,19 @@ interface SendMailUseCaseRequest {
 }
 
 export class SendMailUseCase {
-  private nodemailer;
   constructor(
     private messageRepository: MessageRepository,
-  ) {
-    this.nodemailer = new NodemailerMailAdapter();
-  }
+    private nodemailer = new NodemailerMailAdapter()
+  ) {}
 
   async execute(request: SendMailUseCaseRequest) {
     const messages = await this.messageRepository.findMany({ targetDate: request.targetDate })
 
     for (let message of messages) {
       await this.nodemailer.sendMail({
-        body: message.message,
         subject: "Cápsula do Tempo",
-        to: message.targetEmail
+        to: message.targetEmail,
+        body: message.message,
       })
       await this.messageRepository.update({ id: message.id, sentAt: new Date })
     }
