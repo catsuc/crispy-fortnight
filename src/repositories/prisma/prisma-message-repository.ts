@@ -24,8 +24,10 @@ export class PrismaMessageRepository implements MessageRepository {
   async findMany(where: MessageFindWhere): Promise<MessageEntity[]> {
     return prisma.message.findMany({
       where: {
-        targetDate: where.targetDate,
-      },
+        targetDate: {
+          lte: where.targetDate,
+        }
+      }
     });
   }
 }
