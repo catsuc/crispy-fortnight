@@ -26,6 +26,11 @@ export class PrismaMessageRepository implements MessageRepository {
       where: {
         targetDate: {
           lte: where.targetDate,
+        },
+        AND: {
+          sentAt: {
+            in: null,
+          }
         }
       }
     });
