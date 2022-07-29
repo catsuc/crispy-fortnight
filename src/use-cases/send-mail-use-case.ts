@@ -1,3 +1,4 @@
+import { NodemailerMailAdapter } from "../adapters/nodemailer/nodemailer-mail-adapter";
 import { MessageRepository } from "../repositories/message-repository";
 
 interface SendMailUseCaseRequest {
@@ -12,8 +13,12 @@ export class SendMailUseCase {
   async execute(request: SendMailUseCaseRequest) {
     const messages = await this.messageRepository.findMany({ targetDate: request.targetDate })
     for (let message of messages) {
-      console.log(message.id + " esse e o id da mensagem que vai ser enviada!")
-      // Envio da mensagem
+      const nodemailer = new NodemailerMailAdapter();
+      await nodemailer.sendMail({
+        body: message.message,
+        subject: "Cápsula do Tempo",
+        to: message.targetEmail
+      })
       // Salvar que foi enviado no banco de dados
     }
   }
