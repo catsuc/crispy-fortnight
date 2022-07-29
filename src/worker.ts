@@ -3,7 +3,7 @@ import { PrismaMessageRepository } from './repositories/prisma/prisma-message-re
 import { SendMailUseCase } from './use-cases/send-mail-use-case';
 
 const job = new CronJob(
-  '*/1 * * * *',
+  '0 8/24 * * *',
   async () => {
     const prismaMessageRepository = new PrismaMessageRepository();
     const useCase = new SendMailUseCase(prismaMessageRepository)
