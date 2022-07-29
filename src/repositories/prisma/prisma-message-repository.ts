@@ -4,6 +4,7 @@ import {
   MessageRepository,
   MessageCreateData,
   MessageFindWhere,
+  MessageUpdateData,
 } from '../message-repository';
 
 export class PrismaMessageRepository implements MessageRepository {
@@ -34,5 +35,16 @@ export class PrismaMessageRepository implements MessageRepository {
         }
       }
     });
+  }
+
+  async update(data: MessageUpdateData): Promise<void> {
+    await prisma.message.update({
+      where: {
+        id: data.id
+      },
+      data: {
+        sentAt: data.sentAt,
+      }
+    })
   }
 }
