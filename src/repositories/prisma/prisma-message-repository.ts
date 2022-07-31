@@ -1,10 +1,8 @@
 import { MessageEntity } from '../../entities/message-entity';
 import { prisma } from '../../prisma/client';
 import {
-  MessageRepository,
   MessageCreateData,
-  MessageFindWhere,
-  MessageUpdateData,
+  MessageFindWhere, MessageRepository, MessageUpdateData
 } from '../message-repository';
 
 export class PrismaMessageRepository implements MessageRepository {
@@ -29,9 +27,7 @@ export class PrismaMessageRepository implements MessageRepository {
           lte: where.targetDate,
         },
         AND: {
-          sentAt: {
-            in: null,
-          }
+          sentAt: null
         }
       }
     });
