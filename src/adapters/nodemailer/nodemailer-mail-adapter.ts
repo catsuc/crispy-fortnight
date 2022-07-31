@@ -7,7 +7,7 @@ export class NodemailerMailAdapter implements MailAdapter {
     this.mailTransport = mailTransportFactory({
       host: process.env.MAIL_HOST,
       port: Number(process.env.MAIL_PORT),
-      secure: process.env.MAIL_SECURE,
+      secure: process.env.MAIL_SECURE === "true",
       auth: {
         user: process.env.MAIL_AUTH_USER,
         pass: process.env.MAIL_AUTH_PASS
