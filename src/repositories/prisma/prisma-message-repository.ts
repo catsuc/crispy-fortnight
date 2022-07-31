@@ -1,9 +1,8 @@
 import { MessageEntity } from '../../entities/message-entity';
 import { prisma } from '../../prisma/client';
 import {
-  MessageRepository,
   MessageCreateData,
-  MessageFindWhere,
+  MessageFindWhere, MessageRepository, MessageUpdateData
 } from '../message-repository';
 
 export class PrismaMessageRepository implements MessageRepository {
@@ -24,8 +23,24 @@ export class PrismaMessageRepository implements MessageRepository {
   async findMany(where: MessageFindWhere): Promise<MessageEntity[]> {
     return prisma.message.findMany({
       where: {
-        targetDate: where.targetDate,
-      },
+        targetDate: {
+          lte: where.targetDate,
+        },
+        AND: {
+          sentAt: null
+        }
+      }
     });
+  }
+
+  async update(data: MessageUpdateData): Promise<void> {
+    await prisma.message.update({
+      where: {
+        id: data.id
+      },
+      data: {
+        sentAt: data.sentAt,
+      }
+    })
   }
 }
