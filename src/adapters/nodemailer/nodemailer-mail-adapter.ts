@@ -19,6 +19,7 @@ export class NodemailerMailAdapter implements MailAdapter {
     await this.mailTransport.sendMail({
       to: data.to,
       subject: data.subject,
+      from: 'capsula-do-tempo@mail.catsuc.com',
       text: data.body,
     })
   }
