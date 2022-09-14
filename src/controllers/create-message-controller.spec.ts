@@ -4,11 +4,19 @@ import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { Request, Response } from 'express';
 import { TestRequest, TestResponse } from '../tests/utils/test-utils';
 
-const serviceMock: CreateMessageService = {
+const serviceMock = {
   execute: jest.fn<typeof CreateMessageService.prototype.execute>().mockResolvedValue(),
 } as CreateMessageService;
 
 describe('CreateMessageService', () => {
+  beforeAll(() => {
+    jest.useFakeTimers().setSystemTime(new Date('2022-10-13'));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -32,9 +40,11 @@ describe('CreateMessageService', () => {
 
     const input = {
       message: 'message',
-      targetDate: 'targetDate',
+      targetDate: '2022-10-14',
       targetEmail: 'targetEmail',
     };
+
+    const expectedOutput = { ...input, targetDate: new Date(input.targetDate) };
 
     const request = new TestRequest(input);
     const response = new TestResponse();
@@ -42,7 +52,7 @@ describe('CreateMessageService', () => {
     await controller.execute(request as Request, response as any as Response);
 
     expect(serviceMock.execute).toBeCalledTimes(1);
-    expect(serviceMock.execute).toBeCalledWith(input);
+    expect(serviceMock.execute).toBeCalledWith(expectedOutput);
   });
 
   it('should return a message with 201 status code', async () => {
@@ -50,7 +60,7 @@ describe('CreateMessageService', () => {
 
     const input = {
       message: 'message',
-      targetDate: 'targetDate',
+      targetDate: '2022-10-14',
       targetEmail: 'targetEmail',
     };
 

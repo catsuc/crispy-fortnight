@@ -2,7 +2,7 @@ import { prisma } from "../libs/prisma";
 
 interface CreateMessageServiceRequest {
   message: string;
-  targetDate: string;
+  targetDate: Date;
   targetEmail: string;
 }
 
