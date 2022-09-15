@@ -27,7 +27,7 @@ describe("CreateMessageService", () => {
 
     const input = {
       message: "Hello",
-      targetDate: "2022-9-12",
+      targetDate: new Date("2022-9-12"),
       targetEmail: "mail@example.com",
     };
 
