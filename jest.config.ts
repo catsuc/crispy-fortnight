@@ -1,6 +1,6 @@
 export default {
   clearMocks: true,
-  collectCoverage: true,
+  collectCoverage: false,
   coverageDirectory: "coverage",
   coverageProvider: "v8",
   transform: {
