@@ -1,17 +1,33 @@
+/* eslint-disable no-await-in-loop */
 import { CronJob } from 'cron';
-import { PrismaMessageRepository } from './repositories/prisma/prisma-message-repository';
-import { SendMailUseCase } from './use-cases/send-mail-use-case';
+import { prisma } from './libs/prisma';
+import { SendMailService } from './services/send-message-mail-service';
 
-const job = new CronJob(
-  '0 8/24 * * *',
-  async () => {
-    const prismaMessageRepository = new PrismaMessageRepository();
-    const useCase = new SendMailUseCase(prismaMessageRepository)
+async function handler() {
+  const sendMailService = new SendMailService();
+  const messages = await prisma.message.findMany({
+    take: 98,
+    where: {
+      targetDate: {
+        lte: new Date(),
+      },
+      sentAt: null,
+    },
+  });
 
-    await useCase.execute({ targetDate: new Date() })
-  },
-  null,
-  true,
-)
+  for (const { id, message, targetEmail } of messages) {
+    await sendMailService.execute({ message, to: targetEmail });
+    await prisma.message.update({
+      data: {
+        sentAt: new Date(),
+      },
+      where: {
+        id,
+      },
+    });
+  }
+}
 
-job.start();
+const job = new CronJob('0 8/24 * * *', handler);
+
+export { job };
