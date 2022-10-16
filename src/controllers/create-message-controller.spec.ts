@@ -1,8 +1,8 @@
-import { CreateMessageController } from './create-message-controller';
-import { CreateMessageService } from '../services/create-message-service';
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { Request, Response } from 'express';
+import { CreateMessageService } from '../services/create-message-service';
 import { TestRequest, TestResponse } from '../tests/utils/test-utils';
+import { CreateMessageController } from './create-message-controller';
 
 const serviceMock = {
   execute: jest.fn<typeof CreateMessageService.prototype.execute>().mockResolvedValue(),
@@ -41,7 +41,7 @@ describe('CreateMessageService', () => {
     const input = {
       message: 'message',
       targetDate: '2022-10-14',
-      targetEmail: 'targetEmail',
+      targetEmail: 'targetEmail@targetEmail.com',
     };
 
     const expectedOutput = { ...input, targetDate: new Date(input.targetDate) };
@@ -61,7 +61,7 @@ describe('CreateMessageService', () => {
     const input = {
       message: 'message',
       targetDate: '2022-10-14',
-      targetEmail: 'targetEmail',
+      targetEmail: 'targetEmail@targetEmail.com',
     };
 
     const expectedOutput = { message: 'Message successfully registered' };
