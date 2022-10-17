@@ -14,9 +14,7 @@ class CreateMessageController {
   }
 
   async execute(request: Request, response: Response): Promise<unknown> {
-    const { message, targetDate: rawTargetDate, targetEmail } = request.body;
-
-    const targetDate = new Date(rawTargetDate);
+    const { message, targetDate, targetEmail } = request.body;
 
     try {
       this.messageValidator.validateSync({
@@ -28,12 +26,12 @@ class CreateMessageController {
       })
     } catch (error: any) {
       if (error instanceof yup.ValidationError) {
-        return response.status(400).json({ message: error.message })
+        return response.status(400).json({ message: error.errors })
       }
       return response.status(500);
     }
 
-    this.service.execute({ message, targetDate, targetEmail });
+    this.service.execute({ message, targetDate: new Date(targetDate), targetEmail });
 
     return response.status(201).json({ message: 'Message successfully registered' });
   }
