@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import "../tests/utils/timer-mock";
 import { Request, Response } from 'express';
 import { CreateMessageService } from '../services/create-message-service';
 import { TestRequest, TestResponse } from '../tests/utils/test-utils';
@@ -9,17 +10,9 @@ const serviceMock = {
 } as CreateMessageService;
 
 describe('CreateMessageService', () => {
-  beforeAll(() => {
-    jest.useFakeTimers().setSystemTime(new Date('2022-10-13'));
-  });
-
-  afterAll(() => {
-    jest.runOnlyPendingTimers()
-    jest.useRealTimers();
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
+    jest.useRealTimers();
   });
 
   it('should be defined', () => {
@@ -164,6 +157,32 @@ describe('CreateMessageService', () => {
       const expectedOutput = {
         message: [
           "message must be at most 256 characters",
+        ]
+      }
+
+      const request = new TestRequest(input);
+      const response = new TestResponse();
+
+      await controller.execute(request as Request, response as any as Response);
+
+      expect(response.status).toBeCalledWith(400);
+      expect(response.status).toBeCalledTimes(1);
+      expect(response.json).toBeCalledWith(expectedOutput);
+      expect(response.json).toBeCalledTimes(1);
+    })
+
+    it('should return an error message with status 400 when targetDate in the past', async () => {
+      const controller = new CreateMessageController(serviceMock);
+
+      const input = {
+        message: "message",
+        targetDate: '2022-10-12',
+        targetEmail: 'targetEmail@targetEmail.com',
+      };
+
+      const expectedOutput = {
+        message: [
+          "targetDate field must be later than 2022-10-13T00:00:00.000Z",
         ]
       }
 
