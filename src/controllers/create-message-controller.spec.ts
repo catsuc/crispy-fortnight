@@ -12,8 +12,10 @@ const serviceMock = {
 describe('CreateMessageService', () => {
   afterEach(() => {
     jest.clearAllMocks();
-    jest.useRealTimers();
   });
+  afterAll(() => {
+    jest.useRealTimers();
+  })
 
   it('should be defined', () => {
     const controller = new CreateMessageController(serviceMock);
