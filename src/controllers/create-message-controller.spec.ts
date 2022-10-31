@@ -1,25 +1,21 @@
-import { CreateMessageController } from './create-message-controller';
-import { CreateMessageService } from '../services/create-message-service';
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import "../tests/utils/timer-mock";
 import { Request, Response } from 'express';
+import { CreateMessageService } from '../services/create-message-service';
 import { TestRequest, TestResponse } from '../tests/utils/test-utils';
+import { CreateMessageController } from './create-message-controller';
 
 const serviceMock = {
   execute: jest.fn<typeof CreateMessageService.prototype.execute>().mockResolvedValue(),
 } as CreateMessageService;
 
 describe('CreateMessageService', () => {
-  beforeAll(() => {
-    jest.useFakeTimers().setSystemTime(new Date('2022-10-13'));
-  });
-
-  afterAll(() => {
-    jest.useRealTimers();
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
+  afterAll(() => {
+    jest.useRealTimers();
+  })
 
   it('should be defined', () => {
     const controller = new CreateMessageController(serviceMock);
@@ -41,7 +37,7 @@ describe('CreateMessageService', () => {
     const input = {
       message: 'message',
       targetDate: '2022-10-14',
-      targetEmail: 'targetEmail',
+      targetEmail: 'targetEmail@targetEmail.com',
     };
 
     const expectedOutput = { ...input, targetDate: new Date(input.targetDate) };
@@ -61,7 +57,7 @@ describe('CreateMessageService', () => {
     const input = {
       message: 'message',
       targetDate: '2022-10-14',
-      targetEmail: 'targetEmail',
+      targetEmail: 'targetEmail@targetEmail.com',
     };
 
     const expectedOutput = { message: 'Message successfully registered' };
@@ -78,6 +74,129 @@ describe('CreateMessageService', () => {
   });
 
   describe('error cases', () => {
-    it.todo('should return a error message with status 400 when body is invalid');
+    it('should return a error message with status 400 when body is invalid', async () => {
+      const controller = new CreateMessageController(serviceMock);
+
+      const expectedOutput = {
+        message: [
+          "message is a required field",
+          "targetEmail is a required field",
+          "targetDate is a required field",
+        ]
+      };
+
+      const request = new TestRequest({});
+      const response = new TestResponse();
+
+      await controller.execute(request as Request, response as any as Response);
+
+      expect(response.status).toBeCalledWith(400);
+      expect(response.status).toBeCalledTimes(1);
+      expect(response.json).toBeCalledWith(expectedOutput);
+      expect(response.json).toBeCalledTimes(1);
+    });
+    it('should return a error message with status 400 when email is invalid', async () => {
+      const controller = new CreateMessageController(serviceMock);
+
+      const input = {
+        message: 'message',
+        targetDate: '2022-10-14',
+        targetEmail: 'invalidEmail',
+      };
+
+      const expectedOutput = {
+        message: [
+          "targetEmail must be a valid email",
+        ]
+      }
+
+      const request = new TestRequest(input);
+      const response = new TestResponse();
+
+      await controller.execute(request as Request, response as any as Response);
+
+      expect(response.status).toBeCalledWith(400);
+      expect(response.status).toBeCalledTimes(1);
+      expect(response.json).toBeCalledWith(expectedOutput);
+      expect(response.json).toBeCalledTimes(1);
+    })
+
+    it('should return an error message with status 400 when message not contain more than 4 characters', async() => {
+      const controller = new CreateMessageController(serviceMock);
+
+      const input = {
+        message: Array.from({ length: 3 }, () => 'A').join(''),
+        targetDate: '2022-10-14',
+        targetEmail: 'targetEmail@targetEmail.com',
+      };
+
+      const expectedOutput = {
+        message: [
+          "message must be at least 4 characters",
+        ]
+      }
+
+      const request = new TestRequest(input);
+      const response = new TestResponse();
+
+      await controller.execute(request as Request, response as any as Response);
+
+      expect(response.status).toBeCalledWith(400);
+      expect(response.status).toBeCalledTimes(1);
+      expect(response.json).toBeCalledWith(expectedOutput);
+      expect(response.json).toBeCalledTimes(1);
+    })
+
+    it('should return an error message with status 400 when the message contains more than 256 characters', async () => {
+      const controller = new CreateMessageController(serviceMock);
+
+      const input = {
+        message: Array.from({ length: 257 }, () => 'A').join(''),
+        targetDate: '2022-10-14',
+        targetEmail: 'targetEmail@targetEmail.com',
+      };
+
+      const expectedOutput = {
+        message: [
+          "message must be at most 256 characters",
+        ]
+      }
+
+      const request = new TestRequest(input);
+      const response = new TestResponse();
+
+      await controller.execute(request as Request, response as any as Response);
+
+      expect(response.status).toBeCalledWith(400);
+      expect(response.status).toBeCalledTimes(1);
+      expect(response.json).toBeCalledWith(expectedOutput);
+      expect(response.json).toBeCalledTimes(1);
+    })
+
+    it('should return an error message with status 400 when targetDate in the past', async () => {
+      const controller = new CreateMessageController(serviceMock);
+
+      const input = {
+        message: "message",
+        targetDate: '2022-10-12',
+        targetEmail: 'targetEmail@targetEmail.com',
+      };
+
+      const expectedOutput = {
+        message: [
+          "targetDate field must be later than 2022-10-13T00:00:00.000Z",
+        ]
+      }
+
+      const request = new TestRequest(input);
+      const response = new TestResponse();
+
+      await controller.execute(request as Request, response as any as Response);
+
+      expect(response.status).toBeCalledWith(400);
+      expect(response.status).toBeCalledTimes(1);
+      expect(response.json).toBeCalledWith(expectedOutput);
+      expect(response.json).toBeCalledTimes(1);
+    })
   });
 });
